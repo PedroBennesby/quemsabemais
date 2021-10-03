@@ -25,17 +25,22 @@ function Home() {
 
   const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
-  const [isTimeEnd, setIsTimeEnd] = useState(false)
   const [time, setTime] = useState(60)
 
   useEffect(() => {
+    let interval = null as any
+
     if (isActive && isPaused === false) {
-      time > 0 && setTimeout(() => setTime(time - 1), 1000)
+      interval = time > 0 && setTimeout(() => setTime(time - 1), 1000)
+    } else {
+      clearInterval(interval)
+    }
+    return () => {
+      clearInterval(interval)
     }
   }, [isActive, isPaused, time])
 
   const handleStart = () => {
-    setTime(60)
     setIsActive(true)
     setIsPaused(false)
   }
@@ -47,11 +52,6 @@ function Home() {
   const handleReset = () => {
     setIsActive(false)
     setTime(60)
-  }
-
-  const handleTimeEnd = () => {
-    setIsTimeEnd(true)
-    setIsActive(false)
   }
 
   function randomizeTheme() {
