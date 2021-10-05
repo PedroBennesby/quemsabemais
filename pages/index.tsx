@@ -1,13 +1,7 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Text,
-  Box,
-  ButtonGroup,
-  useToast,
-} from '@chakra-ui/react'
+import { Button, Flex, Heading, Text, Box, ButtonGroup } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
+import Navbar from '../components/Navbar'
 
 function Home() {
   const [cardTheme, setCardTheme] = useState('')
@@ -21,6 +15,11 @@ function Home() {
     'Déjà-vu',
     'Efeito Barnum',
     'Efeito ancoragem',
+    'Teoria das cordas',
+    'Efeito de laplace',
+    'Efeito Mandela',
+    'Teorias atômicas',
+    'Revolução industrial',
   ]
 
   const [isActive, setIsActive] = useState(false)
@@ -62,74 +61,93 @@ function Home() {
   }
 
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      maxW={{ xl: '1200px' }}
-      height="100vh"
-      m="0 auto"
-    >
-      <Heading as="h1" size="xl" mt="4">
-        Quem sabe mais?
-      </Heading>
-      <Text mt="4" fontSize="xl" align="center">
-        Clique no botão abaixo para iniciar o jogo!
-      </Text>
+    <>
+      <Head>
+        <title>Quem sabe mais?</title>
+      </Head>
 
-      {cardTheme ? (
-        <Box
-          bg="teal.600"
-          w="80%"
-          p="6"
-          m="8"
-          color="white"
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-        >
-          <Text align="center" fontSize="2xl">
-            {cardTheme}
-          </Text>
-
-          <Text mt="2" align="center" fontSize="xl">
-            {time}
-          </Text>
-        </Box>
-      ) : (
-        ''
-      )}
-
-      {cardTheme ? (
-        <ButtonGroup mt={!cardTheme ? '4' : ''} spacing="2">
-          {isActive ? (
-            <>
-              <Button colorScheme="teal" size="md" onClick={handlePauseResume}>
-                {isPaused ? 'Iniciar' : 'Pausar'}
-              </Button>
-              <Button colorScheme="teal" size="md" onClick={handleReset}>
-                Reset
-              </Button>{' '}
-            </>
-          ) : (
-            <Button colorScheme="teal" size="md" onClick={handleStart}>
-              Iniciar tempo
-            </Button>
-          )}
-        </ButtonGroup>
-      ) : (
-        ''
-      )}
-
-      <Button
-        mt="4"
-        colorScheme="teal"
-        size="lg"
-        onClick={() => setCardTheme(randomizeTheme)}
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        maxW={{ xl: '1200px' }}
+        height="100vh"
+        m="0 auto"
       >
-        {!cardTheme ? 'Jogar' : 'Novo tema'}
-      </Button>
-    </Flex>
+        <Flex left="0" top="0" position="absolute">
+          <Navbar />
+        </Flex>
+        {!cardTheme ? (
+          <>
+            <Heading as="h1" size="2xl" lineHeight="1" mb="8">
+              Quem sabe mais?
+            </Heading>
+            <Text mb="8" fontSize="xl" align="center" lineHeight="1">
+              Clique no botão abaixo para iniciar o jogo!
+            </Text>
+          </>
+        ) : (
+          ''
+        )}
+
+        {cardTheme ? (
+          <Box
+            bg="teal.600"
+            w="80%"
+            p="6"
+            m="8"
+            color="white"
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+          >
+            <Text align="center" fontSize="2xl">
+              {cardTheme}
+            </Text>
+
+            <Text mt="2" align="center" fontSize="xl">
+              {time}
+            </Text>
+          </Box>
+        ) : (
+          ''
+        )}
+
+        {cardTheme ? (
+          <ButtonGroup mt={!cardTheme ? '4' : ''} spacing="2">
+            {isActive ? (
+              <>
+                <Button
+                  colorScheme="teal"
+                  size="md"
+                  onClick={handlePauseResume}
+                >
+                  {isPaused ? 'Iniciar' : 'Pausar'}
+                </Button>
+                <Button colorScheme="teal" size="md" onClick={handleReset}>
+                  Reset
+                </Button>{' '}
+              </>
+            ) : (
+              <Button colorScheme="teal" size="md" onClick={handleStart}>
+                Iniciar tempo
+              </Button>
+            )}
+          </ButtonGroup>
+        ) : (
+          ''
+        )}
+
+        <Button
+          mt="4"
+          colorScheme="teal"
+          size="lg"
+          onClick={() => setCardTheme(randomizeTheme)}
+        >
+          {!cardTheme ? 'Jogar' : 'Novo tema'}
+        </Button>
+      </Flex>
+    </>
   )
 }
 
